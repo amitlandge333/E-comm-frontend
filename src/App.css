@@ -2,32 +2,16 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.footer {
+  background-color: rgb(75, 75, 207);
+  position: absolute;
+  bottom: 0%;
+  text-align: center;
+  width: 100%;
   color: white;
+  margin-top: 20px;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +19,44 @@
   to {
     transform: rotate(360deg);
   }
+}
+.productList {
+  color: white;
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 3% auto;
+}
+.product-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 30px;
+ overflow: scroll;
+  z-index: 3000;
+}
+.delete{
+  margin: 10px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.update{
+  text-decoration: none;
+  padding: 4px 10px;
+  margin: 10px;
+  color: black;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.search{
+  padding: 4px 12px;
+  margin: 2% 0px;
+  border:2px solid rgb(115, 115, 213)
 }
