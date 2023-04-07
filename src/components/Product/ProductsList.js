@@ -15,7 +15,7 @@ const ProductsList = () => {
       navigate("/products");
     }
     const userId = JSON.parse(userData)._id;
-    console.log(userId);
+   
     const response = await fetch(`http://localhost:2000/products/${userId}`, {
       headers: {
         Authorization: `bearer ${JSON.parse(localStorage.getItem("token"))}`,
@@ -28,13 +28,13 @@ const ProductsList = () => {
   console.log(product);
 
   const onProductDeleteHandler = (id) => {
-    console.log(id);
+  
     const deleteProduct = async () => {
       const response = await fetch(`http://localhost:2000/delete/${id}`, {
         method: "delete",
       });
       const result = await response.json();
-      console.log(result);
+      if(result.succe)
       getProducts();
     };
     deleteProduct();
@@ -59,6 +59,9 @@ const ProductsList = () => {
       getProducts();
     }
   };
+  if (product === undefined) {
+    return <p>No Product Found</p>;
+  }
   return (
     <div className="products">
       <h1> Product List</h1>

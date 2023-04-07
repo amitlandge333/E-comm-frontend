@@ -14,7 +14,7 @@ const UpdateProduct = () => {
         `http://localhost:2000/getProduct/${param.productId}`
       );
       const result = await response.json();
-      console.log(result);
+
       setName(result.update_product.name);
       setDescription(result.update_product.description);
       setCategory(result.update_product.category);
@@ -26,8 +26,13 @@ const UpdateProduct = () => {
   const onSubmitProductDataHandler = (e) => {
     e.preventDefault();
     console.log(name, description, price, category);
-    console.log(param.productId);
+
     const updateProduct = async () => {
+      if (!name || !description || !price || !category) {
+        alert("Please Fill All information");
+        return false;
+      }
+
       const response = await fetch(
         `http://localhost:2000/update-product/${param.productId}`,
         {
@@ -44,8 +49,10 @@ const UpdateProduct = () => {
         }
       );
       const result = await response.json();
-      console.log(result);
-      navigate("/products");
+
+      if (result.success) {
+        navigate("/products");
+      }
     };
     updateProduct();
   };

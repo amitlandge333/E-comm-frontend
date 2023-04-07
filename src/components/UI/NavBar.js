@@ -3,13 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./NavBar.css";
 const NavBar = () => {
   const navigate = useNavigate();
-  const auth = localStorage.getItem("user");
-  const name = JSON.parse(auth);
+  let auth = localStorage.getItem("token");
+  auth = JSON.parse(auth);
+  let name = localStorage.getItem("user");
+  name = JSON.parse(name);
   const onLogoutHandler = () => {
     localStorage.clear();
     navigate("/");
   };
-  console.log(name);
+
   return (
     <div>
       <ul className="list">
@@ -24,12 +26,8 @@ const NavBar = () => {
             <li>
               <Link to="/add-product">Add Product</Link>
             </li>
-            <li>
-              <Link to="/update-product">Update Product</Link>
-            </li>
-            <li>
-              <Link to="/profile">Profile</Link>
-            </li>
+            
+          
           </>
         )}
         {auth && (

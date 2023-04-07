@@ -11,27 +11,29 @@ const AddProduct = () => {
   const onSubmitProductDataHandler = (e) => {
     const userData = localStorage.getItem("user");
     const userId = JSON.parse(userData)._id;
-    console.log(userId);
+
     e.preventDefault();
-    console.log(name, description, category, price);
+
     if (!name || !description || !category || !price) {
+      alert("please fill all information");
       return false;
+    } else {
+      sendProduct(userId);
     }
-    const sendProduct = async () => {
-      const response = await fetch("http://localhost:2000/add-product", {
-        method: "post",
-        body: JSON.stringify({ name, description, category, price, userId }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await response.json();
-      console.log(result);
-      if (response.ok) {
-        navigate("/products");
-      }
-    };
-    sendProduct();
+  };
+  const sendProduct = async (userId) => {
+    const response = await fetch("http://localhost:2000/add-product", {
+      method: "post",
+      body: JSON.stringify({ name, description, category, price, userId }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    console.log(result);
+    if (response.ok) {
+      navigate("/products");
+    }
   };
   return (
     <div>
@@ -39,7 +41,7 @@ const AddProduct = () => {
       <form onSubmit={onSubmitProductDataHandler}>
         <input
           type="text"
-          placeholder="Enter Your Name"
+          placeholder="Enter Your Product Name"
           onChange={(e) => {
             setName(e.target.value);
           }}

@@ -2,42 +2,52 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Input.css";
+import FetchData from "./FetchData";
 const SignIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if (auth) {
       navigate("/");
     }
   }, [navigate]);
+  let emailIsValid = true;
+  let passIsValid = true;
+
+  emailIsValid = email.trim().includes("@");
+  passIsValid = password.trim().length > 5;
   const onSubmitUserDataHandler = (e) => {
     e.preventDefault();
-    console.log(email, password);
-    const sendData = async () => {
-      const response = await fetch("http://localhost:2000/signin", {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          
-        },
-      });
-      const result = await response.json();
-      console.log(result);
-      if (result.token) {
-        localStorage.setItem("user", JSON.stringify(result.user));
-        localStorage.setItem("token", JSON.stringify(result.token));
-        navigate("/products");
-      } else {
-        alert("please fill valid info");
-      }
-    };
-    sendData();
+
+    if (emailIsValid && passIsValid) {
+      sendData();
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+  const sendData = async () => {
+    const response = await FetchData({
+      route: "http://localhost:2000/signin",
+      method: "post",
+      body: {
+        email,
+        password,
+      },
+    });
+    const result = await response.json();
+
+    if (!result.success) {
+      alert("Please Enter valid Email & Password");
+    }
+    if (result.user.token) {
+      localStorage.setItem("user", JSON.stringify(result.user));
+      localStorage.setItem("token", JSON.stringify(result.user.token));
+      navigate("/products");
+    }
   };
   return (
     <div>
@@ -50,6 +60,7 @@ const SignIn = () => {
             setEmail(e.target.value);
           }}
           value={email}
+          className={!emailIsValid && error && "invalid"}
         />
         <input
           type="password"
@@ -58,6 +69,7 @@ const SignIn = () => {
             setPassword(e.target.value);
           }}
           value={password}
+          className={!passIsValid && error && "invalid"}
         />
         <button type="submit">Submit</button>
       </form>
